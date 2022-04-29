@@ -22,7 +22,9 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar color="green">
-                <v-icon dark>
+                <v-icon
+                 @click="profileAcc"
+                 dark>
                     mdi-account-circle
                 </v-icon>
             </v-list-item-avatar>
@@ -38,7 +40,7 @@
         <v-divider></v-divider>
         <v-list>
               <v-list-item>
-                <v-btn text>Profile</v-btn> 
+                <v-btn @click="loginUsr" text>Login</v-btn> 
               </v-list-item>
               <v-list-item>
                 <v-btn text>Setting</v-btn>
@@ -68,10 +70,17 @@
 <script>
   export default {
     data: () => ({
-      fav: true,
       menu: false,
       message: false,
       hints: true,
     }),
+    methods: {
+      profileAcc(){
+        this.$router.push('/profile')
+      },
+      loginUsr(){
+        this.$router.push('/login')
+      }
+    }
   }
 </script>

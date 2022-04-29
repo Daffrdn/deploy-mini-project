@@ -1,18 +1,24 @@
 <template>
 <div>
-  <add-posting/>
-  <list-posting />
+  <default-navbar/>
+    <add-posting/>
+    <list-posting />
+  <default-footer/>
 </div>  
 </template>
 
 <script>
-import addPosting from '../components/addPosting.vue'
-import listPosting from '../components/listPosting'
+import addPosting from '../components/Posting/addPosting.vue'
+import listPosting from '../components/Posting/listPosting'
+import DefaultFooter from '../layouts/defaultFooter.vue'
+import DefaultNavbar from '../layouts/defaultNavbar.vue'
 
   export default {
     components: {
       listPosting,
       addPosting,
+      DefaultNavbar,
+      DefaultFooter,
     },
   }
 </script>

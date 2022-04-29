@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="mx-auto mt-4"
+    class="mx-auto mt-4 md-4"
     max-width="600"
     solo>
     <v-card-actions>
