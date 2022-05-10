@@ -18,12 +18,12 @@ Vue.config.productionTip = false
 // HTTP connection to the API
 const httpLink = new HttpLink({
   // You should use an absolute URL here
-  uri: 'https://great-meerkat-53.hasura.app/v1/graphql',
+  uri: 'https://mint-satyr-46.hasura.app/v1/graphql',
 })
 
 // Create the subscription websocket link
 const wsLink = new WebSocketLink({
-  uri: 'ws://great-meerkat-53.hasura.app/v1/graphql',
+  uri: 'ws://mint-satyr-46.hasura.app/v1/graphql',
   options: {
     reconnect: true,
   },
@@ -63,3 +63,19 @@ new Vue({
   apolloProvider,
   render: h => h(App)
 }).$mount('#app')
+
+// import Vue from 'vue'
+// import App from './App.vue'
+// import router from './router';
+// import store from './store';
+// import axios from 'axios';
+
+// axios.defaults.withCredentials = true
+// axios.defaults.baseURL = 'https://vast-atoll-03704.herokuapp.com/';
+
+// Vue.config.productionTip = false
+// new Vue({
+//   store,
+//   router,
+//   render: h => h(App)
+// }).$mount('#app')

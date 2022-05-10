@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div>
+    <v-img
+      :width="width"
+      height="700"
+      :src="images.bg1"
+    >
       <v-row>
           <v-col class="mt-5 md-5">
             <v-card-text align="center" class="font-weight-black">
@@ -14,8 +18,9 @@
           </v-col>
       </v-row>
       <br>
+      <br>
       <default-footer class="mt-5"/>
-    </div>
+      </v-img>
   </div>
 </template>
 
@@ -27,6 +32,14 @@ export default {
     components: {
         loginUser,
         DefaultFooter
+    },
+    data(){
+      return{
+        images: {
+          bg: require('../assets/bg.jpg'),
+          bg1: require('../assets/bg.jpg')
+        }
+      }
     }
 }
 </script>

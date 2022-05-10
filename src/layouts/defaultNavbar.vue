@@ -30,26 +30,27 @@
       >
         <v-icon>mdi mdi-home</v-icon>
       </v-btn>
-      
+
+      <!-- <div v-if="isLoggedIn">
+        <v-btn
+        target="_blank"
+        text
+        @click="logout"
+      >
+        Logout
+      </v-btn>
+      </div>
+
+      <div v-else>
+        <router-link to="/register">Register</router-link> |
+        <router-link to="/login">Login</router-link>
+      </div> -->
+
       <menuProfile/>
   
     </v-app-bar>
 
     
-
-    <!-- <v-footer
-    dark
-    padless
-    class="mt-4">
-    <v-card
-      class="flex green"
-      flat
-      tile>
-      <v-card-text class="py-2 white--text text-center">
-        {{ new Date().getFullYear() }} — <strong>Mini Project - Social Media</strong>
-      </v-card-text>
-    </v-card>
-  </v-footer> -->
 </div>
 </template>
 
@@ -62,6 +63,9 @@ export default {
     },
   data: () => ({
   }),
+  // computed : {
+  //     isLoggedIn : function(){ return this.$store.getters.isAuthenticated}
+  //   },
   methods: {
     profileAcc(){
       this.$router.push('/profile')
@@ -69,6 +73,10 @@ export default {
     beranda(){
       this.$router.push('/')
     }
+    // async logout (){
+    //     await this.$store.dispatch('LogOut')
+    //     this.$router.push('/login')
+    //   },
   }
 };
 </script>

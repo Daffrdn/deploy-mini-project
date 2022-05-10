@@ -3,6 +3,7 @@
   <v-card
     class="mx-auto md-4"
     max-width="500"
+    elevation="10"
     solo>
     <v-card-actions >
       <v-list-item class="grow">
@@ -19,10 +20,15 @@
             </v-list-item-content>
         </v-list-item>
     </v-card-actions>
+
+    <!-- <v-divider></v-divider> -->
+
     <v-card-text >
         <v-text-field
             label="Username Or E-mail"
             placeholder="Dense & Rounded"
+            type="text"
+            v-model="username"
             outlined
             rounded
             dense
@@ -30,6 +36,8 @@
           <v-text-field
             label="Password"
             placeholder="Dense & Rounded"
+            type="password"
+            v-model="password"
             outlined
             rounded
             dense
@@ -42,15 +50,10 @@
         >
         Continue
         </v-btn>
+
         <h2 align="center" class="mt-2 black--text">or</h2>
-        <v-btn
-        block
-        color="black"
-        dark
-        class="mt-2"
-        >
-        Sign Up
-        </v-btn>
+        <signup-user class="mt-2">
+        </signup-user>
         
     </v-card-text>
         <v-divider></v-divider>
@@ -62,9 +65,15 @@
 </template>
 
 <script>
+import signupUser from '../components/signupUser.vue'
+
   export default {
     data: () => ({
-      
+      username: "",
+      pasword: "",
     }),
+    components: {
+      signupUser,
+    }
   }
 </script>
