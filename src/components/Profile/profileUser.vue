@@ -3,7 +3,7 @@
     class="mx-auto mt-4 md-4"
     max-width="600">
     <v-img
-      class="white--text align-end green"
+      class="white--text green"
       height="250px"
     >
       <v-card-title >
@@ -13,8 +13,8 @@
               >
           </v-avatar>
           <v-list-item-content class="ml-3">
-            <v-list-item-title><h3>Daffa Erdian Fahrezy</h3></v-list-item-title>
-            <p>@username</p>
+            <v-list-item-title><h3>{{ $auth.user.name }}</h3></v-list-item-title>
+            <p>@{{ $auth.user.nickname }}</p>
         </v-list-item-content>
       </v-card-title>
     </v-img>

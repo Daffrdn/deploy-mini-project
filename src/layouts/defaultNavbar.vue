@@ -16,6 +16,8 @@
             outlined
           ></v-text-field>
       <v-spacer></v-spacer>
+      <div v-if="!$auth.isAuthenticated"></div>
+      <div v-if="$auth.isAuthenticated">
       <v-btn
         target="_blank"
         text
@@ -30,23 +32,30 @@
       >
         <v-icon>mdi mdi-home</v-icon>
       </v-btn>
+      </div>
 
-      <!-- <div v-if="isLoggedIn">
-        <v-btn
-        target="_blank"
+      <div v-if="!$auth.loading">
+        <!-- show login when not authenticated -->
+        <!-- <a v-if="!$auth.isAuthenticated" @click="login" class="button is-dark"
+          ><strong> Sign in </strong></a
+        > -->
+      <v-btn
+        v-if="!$auth.isAuthenticated"
+        text
+        @click="login"
+      >
+        Log In
+      </v-btn>
+        <!-- show logout when authenticated -->
+      <v-btn
+        v-if="$auth.isAuthenticated"
         text
         @click="logout"
       >
-        Logout
+        Log Out
       </v-btn>
+
       </div>
-
-      <div v-else>
-        <router-link to="/register">Register</router-link> |
-        <router-link to="/login">Login</router-link>
-      </div> -->
-
-      <menuProfile/>
   
     </v-app-bar>
 
@@ -55,11 +64,9 @@
 </template>
 
 <script>
-import menuProfile from '../components/Profile/menuProfile.vue'
 
 export default {
   components: {
-      menuProfile
     },
   data: () => ({
   }),
@@ -72,6 +79,15 @@ export default {
     },
     beranda(){
       this.$router.push('/')
+    },
+    login() {
+      this.$auth.loginWithRedirect();
+    },
+    // Log the user out
+    logout() {
+      this.$auth.logout({
+        returnTo: window.location.origin
+      });
     }
     // async logout (){
     //     await this.$store.dispatch('LogOut')

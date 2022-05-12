@@ -19,6 +19,8 @@
           <div class="text-h10">{{posts.updated_at}}</div>
         </v-list-item-content>
 
+        <div v-if="!$auth.isAuthenticated"></div>
+        <div v-if="$auth.isAuthenticated">
         <v-row
           align="center"
           justify="end">
@@ -80,6 +82,7 @@
             </v-list>
         </v-menu>
         </v-row>
+        </div>
       </v-list-item>
     </v-card-actions>
     <v-divider></v-divider>
@@ -131,7 +134,8 @@
       
         <v-list-item>
           <v-list-item-content>
-            <div class="form__group">
+            <div v-if="!$auth.isAuthenticated"></div>
+            <div class="form__group" v-if="$auth.isAuthenticated">
               <input type="input" class="form__field" placeholder="Name" name="comment" id='comment' required />
               <label for="comment" class="form__label"> Add ur comment...</label>
             </div>
@@ -141,7 +145,6 @@
     </v-expand-transition>
 
   </v-card>
-
 </div>
 </div>
 </template>

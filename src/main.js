@@ -13,17 +13,32 @@ import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 
+import { domain, clientId } from '../auth_config.json';
+import { Auth0Plugin } from './auth';
+
+Vue.use(Auth0Plugin, {
+  domain,
+  clientId,
+  onRedirectCallback: (appState) => {
+    router.push(
+      appState && appState.targetUrl
+        ? appState.targetUrl
+        : window.location.pathname,
+    );
+  },
+});
+
 Vue.config.productionTip = false
 
 // HTTP connection to the API
 const httpLink = new HttpLink({
   // You should use an absolute URL here
-  uri: 'https://mint-satyr-46.hasura.app/v1/graphql',
+  uri: 'https://steady-ape-30.hasura.app/v1/graphql',
 })
 
 // Create the subscription websocket link
 const wsLink = new WebSocketLink({
-  uri: 'ws://mint-satyr-46.hasura.app/v1/graphql',
+  uri: 'ws://steady-ape-30.hasura.app/v1/graphql',
   options: {
     reconnect: true,
   },
@@ -56,6 +71,7 @@ const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
   })
 
+  
 new Vue({
   router,
   store,

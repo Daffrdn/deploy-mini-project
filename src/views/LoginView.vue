@@ -19,19 +19,16 @@
       </v-row>
       <br>
       <br>
-      <default-footer class="mt-5"/>
       </v-img>
   </div>
 </template>
 
 <script>
 import loginUser from '../components/loginUser.vue'
-import DefaultFooter from '../layouts/defaultFooter.vue'
 
 export default {
     components: {
         loginUser,
-        DefaultFooter
     },
     data(){
       return{

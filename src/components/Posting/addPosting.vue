@@ -12,7 +12,7 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title><h3>Daffa</h3></v-list-item-title>
+          <v-list-item-title><h3>{{ $auth.user.nickname }}</h3></v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-card-actions>

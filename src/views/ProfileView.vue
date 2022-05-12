@@ -13,7 +13,6 @@
             </list-posting>
           </v-col>
       </v-row>
-    <default-footer/>
   </div>
 </template>
 
@@ -21,7 +20,6 @@
 import AddPosting from '../components/Posting/addPosting.vue'
 import ListPosting from '../components/Posting/listPosting.vue'
 import profileUser from '../components/Profile/profileUser.vue'
-import DefaultFooter from '../layouts/defaultFooter.vue'
 import DefaultNavbar from '../layouts/defaultNavbar.vue'
 
 export default {
@@ -31,7 +29,6 @@ export default {
     ListPosting,
     AddPosting,
     DefaultNavbar,
-    DefaultFooter
   },
 }
 </script>
