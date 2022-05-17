@@ -1,174 +1,211 @@
 <template>
 <div>
-<div v-for="(posts, index) in post" :key="index">
-  <v-card
-    class="mx-auto mt-4 md-4"
+  <v-row class="mx-auto" align="center">
+    <v-col>
+      <v-card
+    class="mx-auto"
     max-width="600"
-    solo
-    >
-    <v-card-actions>
-      <v-list-item class="grow">
-        <v-list-item-avatar color="green">
-          <v-icon dark>
-              mdi-account-circle
-            </v-icon>
-        </v-list-item-avatar>
-
-        <v-list-item-content>
-          <v-list-item-title><h3>Daffa</h3></v-list-item-title>
-          <div class="text-h10">{{posts.updated_at}}</div>
-        </v-list-item-content>
-
-        <div v-if="!$auth.isAuthenticated"></div>
-        <div v-if="$auth.isAuthenticated">
-        <v-row
-          align="center"
-          justify="end">
-
-        <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">  
-          <v-btn
-            v-bind="attrs"
-            v-on="on"
-            text>
-            <v-icon class="mr-1">
-              mdi-cog
-            </v-icon>
-            </v-btn>
-            </template>
-
-            <v-list>
-              <v-list-item>
-                <v-btn text v-if="type == 'posting'" @click="delete_post(posts)"> Delete Post </v-btn>
-                <v-dialog
-                  v-model="dialog"
-                  persistent
-                  max-width="600px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      text v-if="type == 'posting'" @click="edit_post(posts)"
-                      max-width="500px"
-                      texet
-                      color="black"
-                      dark
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      Edit Post
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title>
-                    </v-card-title>
-                    <v-card-text>
-                      <input v-bind:value="doPost" @keyup.enter="edit_post(posts, dialog = false)"
-                        @change="doPostChange" type="input" class="form__field" required />
-                      <label class="form__label"></label>
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-btn
-                        color="blue darken-1"
-                        text
-                        @click="edit_post(posts, dialog = flase)"
-                      >
-                        Confirm
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-                <!-- <v-btn text v-if="type == 'posting'" @click="edit_post(posts)">{{editing?'Update Post':'Edit Post'}}</v-btn> -->
-              </v-list-item>
-            </v-list>
-        </v-menu>
-        </v-row>
-        </div>
-      </v-list-item>
-    </v-card-actions>
-    <v-divider></v-divider>
-    <v-card-text v-if="!editing" class="text-h5 bold">
-    {{ posts.write_post }}
-    </v-card-text>
+    elevation="0"
     
-    <v-divider></v-divider>
-    <v-card-actions>
-      <v-btn
-        icon
-        :class="like ? 'red--text' : ''"
-        @click="like = !like">
-        <v-icon>mdi mdi-thumb-up</v-icon>
-      </v-btn>
-      <v-btn
-        text
-        @click="show = !show">  Comment
-        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-      </v-btn>
-      <v-btn
-        text
-        @click="a">
-        <v-icon>mdi mdi-share-variant</v-icon>
-      </v-btn>
-    </v-card-actions>
-
-  <v-expand-transition>
-      <div v-show="show">
-      
-      <v-divider></v-divider>
-      <div v-for="comments in posts.OnToMany" :key="comments">
-      <v-list-item>
-        <v-list-item-avatar color="green">
-          <v-icon dark>
-              mdi-account-circle
-            </v-icon>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title><h3>Anonim</h3></v-list-item-title>
-          <div class="text-h10">{{ comments.updated_at }}</div>
-        </v-list-item-content>
-      </v-list-item>
-        <v-card-text cols="12">
-          {{ comments.write_comment }}
-        </v-card-text>
-      <v-divider></v-divider>
-      </div>
-      
-        <v-list-item>
-          <v-list-item-content>
-            <div v-if="!$auth.isAuthenticated"></div>
-            <div class="form__group" v-if="$auth.isAuthenticated">
-              <input type="input" class="form__field" placeholder="Name" name="comment" id='comment' required />
-              <label for="comment" class="form__label"> Add ur comment...</label>
-            </div>
-          </v-list-item-content>
-        </v-list-item>
-      </div>
-    </v-expand-transition>
-
+  >
+    <v-text-field
+        label="Search Post..."
+        class="mt-5"
+        dense
+        outlined
+        v-model="search"
+      ></v-text-field>
   </v-card>
-</div>
+  <div v-for="(posts, index) in filteredList" :key="index">
+    <v-card
+      class="mx-auto mt-4 md-4"
+      max-width="600"
+      solo
+      elevation="3"
+      >
+      <v-card-actions>
+        <v-list-item class="grow">
+          <v-list-item-avatar color="green">
+            <v-icon dark>
+                mdi-account-circle
+              </v-icon>
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title><h3>{{ posts.nama }}</h3></v-list-item-title>
+            <div class="text-h10">{{posts.updated_at}}</div>
+          </v-list-item-content>
+
+          <div v-if="!$auth.isAuthenticated"></div>
+          <div v-if="$auth.isAuthenticated">
+          <v-row
+            align="center"
+            justify="end">
+          <div v-if="$auth.user.nickname ">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">  
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+              text>
+              <v-icon class="mr-1">
+                mdi-cog
+              </v-icon>
+              </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-item>
+                  <v-btn text @click="delete_post(posts)"> Delete Post </v-btn>
+                  <v-dialog
+                    v-model="dialog"
+                    persistent
+                    max-width="600px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        text v-if="type == 'posting'" @click="edit_post(posts)"
+                        max-width="500px"
+                        texet
+                        color="black"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        Edit Post
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title>
+                      </v-card-title>
+                      <v-card-text>
+                        <input v-bind:value="doPost" @keyup.enter="edit_post(posts, dialog = false)"
+                          @change="doPostChange" type="input" class="form__field" required />
+                        <label class="form__label"></label>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="edit_post(posts, dialog = flase)"
+                        >
+                          Confirm
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-list-item>
+              </v-list>
+          </v-menu>
+          </div>
+          </v-row>
+          </div>
+        </v-list-item>
+      </v-card-actions>
+      <v-divider></v-divider>
+      <v-card-text v-if="!editing" class="text-h5 bold">
+      {{ posts.write_post }}
+      </v-card-text>
+      
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-btn
+          icon
+          :class="like ? 'red--text' : ''"
+          @click="like = !like">
+          <v-icon>mdi mdi-thumb-up</v-icon>
+        </v-btn>
+        <v-btn
+          text
+          @click="show = !show">  Comment
+          <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        </v-btn>
+        <v-btn
+          text>
+          <v-icon>mdi mdi-share-variant</v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+        <h3> Id Post: {{ posts.id }}</h3>
+      </v-card-actions>
+
+    <v-expand-transition>
+        <div v-show="show">
+        
+        <v-divider></v-divider>
+        <div v-for="comments in posts.OnToMany" :key="comments">
+        <v-list-item>
+          <v-list-item-avatar color="green">
+            <v-icon dark>
+                mdi-account-circle
+              </v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title><h3>{{ comments.nama }}</h3></v-list-item-title>
+            <div class="text-h10">{{ comments.updated_at }}</div>
+          </v-list-item-content>
+          <v-btn
+            text
+            @click="deleteComment(comments)"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-list-item>
+          <v-card-text cols="12">
+            {{ comments.write_comment }}
+          </v-card-text>
+        <v-divider></v-divider>
+        </div>
+        
+          <v-list-item>
+            <v-list-item-content>
+              <div v-if="!$auth.isAuthenticated"></div>
+              <div class="form__group" v-if="$auth.isAuthenticated">
+                <add-comment>
+                </add-comment>
+                <br>
+              </div>
+            </v-list-item-content>
+          </v-list-item>
+        </div>
+      </v-expand-transition>
+    </v-card>
+  </div>
+  </v-col>
+  </v-row>
 </div>
 </template>
 
 <script>
 import gql from 'graphql-tag'
+import AddComment from '../Comment/addComment.vue'
 
 export const GET_MY_POST = gql`
   query getMyPost {
   post(order_by:{id: desc})  {
     id
+    nama
     write_post
     updated_at
     OnToMany {
+      id
       id_post
       write_comment
       updated_at
+      nama
     }
   }
 }`
 
 const REMOVE_POST = gql`
-  mutation rmpost($id: Int!) {
+  mutation MyMutation($id: Int!) {
   delete_post(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}`
+
+const REMOVE_COMMENT = gql`
+ mutation MyMutation($id: Int!) {
+  delete_comment(where: {id: {_eq: $id}}) {
     affected_rows
   }
 }`
@@ -180,13 +217,41 @@ const EDIT_POST = gql`
   }
 }`
 
+const SUBS_POST = gql`
+  subscription MySubscription {
+  post {
+    id
+    nama
+    updated_at
+    write_post
+    OnToMany {
+      id
+      id_post
+      nama
+      updated_at
+      write_comment
+    }
+  }
+}`
+
   export default {
     name: 'HelloWorld',
+    components: {
+        AddComment
+    },
     apollo: {
       post: {
         query: GET_MY_POST,
         error(error){
           this.error = JSON.stringify(error.message)
+        }
+      },
+      $subscribe: {
+        post: {
+          query: SUBS_POST,
+          result({ data }){
+            this.posting = data.post
+          }
         }
       }
     },
@@ -195,33 +260,66 @@ const EDIT_POST = gql`
       like: false,
       editing: false,
       doPost: "",
+      newComment: "",
       post: [],
       type: "posting",
       dialog: false,
+      search: "",
     }),
+    computed: {
+    filteredList() {
+      return this.post.filter(post => {
+        return post.write_post.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+  },
     methods: {
-      delete_post: function(posts){
+    delete_post: function(posts){
       this.$apollo.mutate({
         mutation: REMOVE_POST,
         variables: {
           id: posts.id
         },
-        update: (store, { data: { delete_post }}) => {
-            if(delete_post.affected_rows){
-              if(this.type == "posting"){
-                const data = store.readQuery({
-                  query: GET_MY_POST
-                })
-                data.post = data.post.filter(p=> {
-                  return p.id !== posts.id
-                })
-                store.writeQuery({
-                  query: GET_MY_POST,
-                  data
-                })
-              }
+        update: (store, { data: { delete_post}}) => {
+          if(delete_post.affected_rows){
+            if(this.type == "posting"){
+              const data = store.readQuery({
+                query: GET_MY_POST
+              })
+              data.post = data.post.filter(p=> {
+                return p.id !== posts.id
+              })
+              store.writeQuery({
+                query: GET_MY_POST,
+                data
+              })
             }
-        }
+          }
+        },
+      })
+    },
+    deleteComment: function(comments){
+      this.$apollo.mutate({
+        mutation: REMOVE_COMMENT,
+        variables: {
+          id: comments.id
+        },
+        update: (store, { data: { delete_comment}}) => {
+          if(delete_comment.affected_rows){
+            if(this.type == "posting"){
+              const data = store.readQuery({
+                query: GET_MY_POST
+              })
+              data.comment = data.comment.filter(c=> {
+                return c.id !== comments.id
+              })
+              store.writeQuery({
+                query: GET_MY_POST,
+                data
+              })
+            }
+          }
+        },
       })
     },
     doPostChange(e) {

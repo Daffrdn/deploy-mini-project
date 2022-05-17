@@ -6,7 +6,7 @@
     <h1> For Upload Post Thankss!!</h1>
   </div>
   <div v-if="$auth.isAuthenticated">
-    <h3 align="center" class="mt-5">Welcome, {{ $auth.user.name }} </h3>
+    <h2 align="center" class="mt-5">Welcome, {{ $auth.user.nickname }} </h2>
     <add-posting/>
       </div>
     <list-posting />

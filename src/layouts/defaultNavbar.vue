@@ -5,16 +5,15 @@
       color="white"
     >
       <div class="d-flex align-center" color="indigo">
-        Title logo
+        <v-img
+        max-width="100"
+        :src="images.logo"
+        @click="home"
+        >
+        </v-img>
       </div>
 
       <v-spacer></v-spacer>
-          <v-text-field
-            label="Search Post"
-            class="mt-7"
-            dense
-            outlined
-          ></v-text-field>
       <v-spacer></v-spacer>
       <div v-if="!$auth.isAuthenticated"></div>
       <div v-if="$auth.isAuthenticated">
@@ -66,18 +65,26 @@
 <script>
 
 export default {
-  components: {
-    },
   data: () => ({
+    images: {
+          logo: require('../assets/logo-fix.png'),
+        }
   }),
-  // computed : {
-  //     isLoggedIn : function(){ return this.$store.getters.isAuthenticated}
-  //   },
+  computed: {
+    filteredList() {
+      return this.post.filter(post => {
+        return post.write_post.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+  },
   methods: {
     profileAcc(){
       this.$router.push('/profile')
     },
     beranda(){
+      this.$router.push('/')
+    },
+    home(){
       this.$router.push('/')
     },
     login() {

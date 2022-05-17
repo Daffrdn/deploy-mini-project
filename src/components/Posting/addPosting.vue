@@ -12,7 +12,10 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title><h3>{{ $auth.user.nickname }}</h3></v-list-item-title>
+          <v-list-item-title>
+            <input v-model="newNama" class="form__field" type="text">
+            <label class="form__label">Put ur name here... </label>
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-card-actions>
@@ -34,11 +37,12 @@ import gql from 'graphql-tag'
 import { GET_MY_POST } from './listPosting.vue'
 
 const ON_SUBMIT = gql`
-  mutation OnSubmits($write_post: String!) {
-  insert_post(objects: {write_post: $write_post}) {
+  mutation OnSubmits($write_post: String!, $nama: String!) {
+  insert_post(objects: {write_post: $write_post, nama: $nama}) {
     affected_rows
     returning {
       id
+      nama
       write_post
       updated_at
     }
@@ -49,15 +53,18 @@ const ON_SUBMIT = gql`
     // props: ['type'],
     data: () => ({
       newPost: "",
+      newNama: "" ,
       type: "posting",
     }),
   methods: {
     OnSubmit: function(){
       const write_post = this.newPost && this.newPost.trim()
+      const nama = this.newNama && this.newNama.trim()
       this.$apollo.mutate({
         mutation: ON_SUBMIT,
         variables: {
-          write_post: write_post
+          write_post: write_post,
+          nama: nama
         },
         update: (cache, { data: { insert_post }}) => {
           try {
