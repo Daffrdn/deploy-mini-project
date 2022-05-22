@@ -13,7 +13,7 @@ import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 
-import { domain, clientId } from '../auth_config.json';
+import { domain, clientId } from '../auth_config';
 import { Auth0Plugin } from './auth';
 
 Vue.use(Auth0Plugin, {
@@ -38,7 +38,7 @@ const httpLink = new HttpLink({
 
 // Create the subscription websocket link
 const wsLink = new WebSocketLink({
-  uri: 'ws://steady-ape-30.hasura.app/v1/graphql',
+  uri: 'wss://steady-ape-30.hasura.app/v1/graphql',
   options: {
     reconnect: true,
   },
