@@ -27,7 +27,9 @@
           <label class="form__label"> Add ur post..</label>
       </div>
         <v-card-actions>
+          <v-divider></v-divider>
     </v-card-actions>
+    <v-btn dark @click="OnSubmit" color="green">Add Post</v-btn>
     </v-card-text>
   </v-card>
 </template>
